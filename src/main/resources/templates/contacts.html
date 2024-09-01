@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>contacts</title>
+    <style>
+        body {
+            background-color: #A9A9A9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 75%;
+            margin: 50px auto;
+            background-color: #D3D3D3;
+            padding: 15px;
+            border: 2px solid #696969;
+            border-radius: 5px;
+            box-shadow: 3px 3px 10px #555;
+        }
+
+        h1 {
+            font-size: 22px;
+            text-align: center;
+            color: #000080;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        .btn-xp {
+            display: inline-block;
+            padding: 8px 15px;
+            font-family: Tahoma, sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            color: #000;
+            text-align: center;
+            text-decoration: none;
+            background: linear-gradient(to bottom, #F0F0F0, #C0C0C0);
+            border: 2px solid #A5A5A5;
+            border-radius: 5px;
+            box-shadow: 1px 1px 1px #FFF inset, -1px -1px 1px #B5B5B5 inset;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn-xp:hover {
+            background: linear-gradient(to bottom, #E0E0E0, #B0B0B0);
+            border: 2px solid #A5A5A5;
+            box-shadow: 1px 1px 1px #FFF inset, -1px -1px 1px #B5B5B5 inset, 2px 2px 5px #333;
+            cursor: pointer;
+        }
+
+        .btn-xp:active {
+            background: linear-gradient(to top, #E0E0E0, #A0A0A0);
+            border: 2px solid #888;
+            box-shadow: inset 1px 1px 1px #B5B5B5, inset -1px -1px 1px #FFF, 2px 2px 5px #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #F0F0F0;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #696969;
+        }
+
+        th {
+            background: linear-gradient(to bottom, #B0B0B0, #D0D0D0);
+            color: #000;
+            font-weight: bold;
+            padding: 10px;
+        }
+
+        td {
+            padding: 10px;
+            background-color: #DCDCDC;
+            transition: background-color 0.3s ease; /* Adiciona transição suave no hover */
+        }
+
+        tr:hover td {
+            background-color: #C0C0C0; /* Cor ao passar o mouse sobre a linha */
+            cursor: pointer; /* Indica que a linha pode ser clicada */
+        }
+
+        .crud-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+            color: #000080;
+        }
+
+        /* Style for modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #D3D3D3;
+            margin: 15% auto;
+            padding: 20px;
+            border: 2px solid #696969;
+            width: 40%;
+            box-shadow: 5px 5px 15px #555;
+        }
+
+        .modal-header {
+            font-size: 18px;
+            font-weight: bold;
+            color: #000080;
+            margin-bottom: 15px;
+        }
+
+        .modal-footer {
+            margin-top: 15px;
+            text-align: right;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #696969;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Read Contacts</h1>
+    <a href="#" class="btn-xp" id="openModalBtn">Create Contact</a>
+    <table>
+        <thead>
+        <tr>
+            <th>#ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Title</th>
+            <th>Created</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="contact : ${contacts}">
+            <td th:text="${contact.id}"></td>
+            <td th:text="${contact.name}"></td>
+            <td th:text="${contact.email}"></td>
+            <td th:text="${contact.phone}"></td>
+            <td th:text="${contact.title}"></td>
+            <td th:text="${contact.created}"></td>
+            <td class="crud-buttons">
+                <a href="#" class="btn-xp edit-btn" data-id="1">Edit</a>
+                <a href="#" class="btn-xp delete-btn" data-id="1">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="footer">
+        <a href="#" class="btn-xp btn-page">1</a>
+    </div>
+</div>
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeModalBtn">&times;</span>
+        <div class="modal-header">Add New Contact</div>
+        <form>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name">
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email">
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone:</label>
+                <input type="text" id="phone" name="phone">
+            </div>
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-xp btn-submit" id="submitBtn">Add Contact</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeEditModalBtn">&times;</span>
+        <div class="modal-header">Edit Contact</div>
+        <form>
+            <div class="form-group">
+                <label for="editName">Name:</label>
+                <input type="text" id="editName" name="editName">
+            </div>
+            <div class="form-group">
+                <label for="editEmail">Email:</label>
+                <input type="email" id="editEmail" name="editEmail">
+            </div>
+            <div class="form-group">
+                <label for="editPhone">Phone:</label>
+                <input type="text" id="editPhone" name="editPhone">
+            </div>
+            <div class="form-group">
+                <label for="editTitle">Title:</label>
+                <input type="text" id="editTitle" name="editTitle">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-xp btn-submit" id="editSubmitBtn">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="deleteModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">Confirm Deletion</div>
+        <p>Are you sure you want to delete this contact?</p>
+        <div class="modal-footer">
+            <button type="button" class="btn-xp btn-cancel" id="cancelDeleteBtn">Cancel</button>
+            <button type="button" class="btn-xp btn-confirm" id="confirmDeleteBtn">Delete</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Script to open and close the create contact modal
+    var modal = document.getElementById("myModal");
+    var btn = document.getElementById("openModalBtn");
+    var span = document.getElementById("closeModalBtn");
+
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    // Script to open and close the edit contact modal
+    var editModal = document.getElementById("editModal");
+    var editBtns = document.getElementsByClassName("edit-btn");
+    var closeEditModalBtn = document.getElementById("closeEditModalBtn");
+
+    Array.from(editBtns).forEach(function(btn) {
+        btn.onclick = function() {
+            // Populate the edit form with contact data (static example)
+            document.getElementById("editName").value = "John Doe";
+            document.getElementById("editEmail").value = "johndoe@example.com";
+            document.getElementById("editPhone").value = "2026550143";
+            document.getElementById("editTitle").value = "Lawyer";
+
+            editModal.style.display = "block";
+        }
+    });
+
+    closeEditModalBtn.onclick = function() {
+        editModal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == editModal) {
+            editModal.style.display = "none";
+        }
+    }
+
+    // Script to open and close the delete confirmation modal
+    var deleteModal = document.getElementById("deleteModal");
+    var deleteBtns = document.getElementsByClassName("delete-btn");
+    var cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
+    var confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+
+    Array.from(deleteBtns).forEach(function(btn) {
+        btn.onclick = function() {
+            deleteModal.style.display = "block";
+        }
+    });
+
+    cancelDeleteBtn.onclick = function() {
+        deleteModal.style.display = "none";
+    }
+
+    confirmDeleteBtn.onclick = function() {
+        // Here you can add the logic to delete the contact
+        alert("Contact deleted successfully!");
+        deleteModal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == deleteModal) {
+            deleteModal.style.display = "none";
+        }
+    }
+</script>
+
+</body>
+</html>
