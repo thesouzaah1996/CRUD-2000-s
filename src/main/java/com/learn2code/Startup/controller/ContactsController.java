@@ -39,4 +39,16 @@ public class ContactsController {
             return "contacts";
         }
     }
+
+    @PostMapping("/contacts/delete")
+    public String deleteContact(@RequestParam("id") Long id, Model model) {
+        try {
+            contactsService.deleteContact(id);
+            model.addAttribute("successMessage", "Contact deleted successfully!");
+            return "redirect:/contacts";
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "Error deleting contact: " + e.getMessage());
+            return "contacts";
+        }
+    }
 }

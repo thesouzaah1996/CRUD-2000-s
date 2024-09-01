@@ -31,4 +31,13 @@ public class ContactsService {
 
         return contactsRepository.save(newContact);
     }
+
+    @Transactional
+    public void deleteContact(Long id) {
+        if (contactsRepository.existsById(id)) {
+            contactsRepository.deleteById(id);
+        } else {
+            throw new IllegalArgumentException("Contact not found with ID: " + id);
+        }
+    }
 }
