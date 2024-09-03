@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>contacts</title>
+    <title>Contacts</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         body {
             background-color: #A9A9A9;
@@ -57,6 +58,10 @@
             background: linear-gradient(to top, #E0E0E0, #A0A0A0);
             border: 2px solid #888;
             box-shadow: inset 1px 1px 1px #B5B5B5, inset -1px -1px 1px #FFF, 2px 2px 5px #333;
+        }
+
+        .btn-xp i {
+            margin-right: 5px;
         }
 
         table {
@@ -173,7 +178,12 @@
 
 <div class="container">
     <h1>Read Contacts</h1>
-    <a href="#" class="btn-xp" id="openModalBtn">Create Contact</a>
+    <a href="#" class="btn-xp" id="openModalBtn">
+        <i class="fa fa-user-plus"></i>Create Contact
+    </a>
+    <a href="#" class="btn-xp">
+        <i class="fa fa-file-excel-o"></i>Export to Excel
+    </a>
     <table>
         <thead>
         <tr>
@@ -195,8 +205,13 @@
             <td th:text="${contact.title}"></td>
             <td th:text="${contact.created}"></td>
             <td class="crud-buttons">
-                <a href="#" class="btn-xp edit-btn" data-id="1">Edit</a>
-                <a href="#" class="btn-xp delete-btn" th:attr="data-id=${contact.id}">Delete</a>
+                <a href="#" class="btn-xp edit-btn"
+                   th:attr="data-id=${contact.id}, data-name=${contact.name}, data-email=${contact.email}, data-phone=${contact.phone}, data-title=${contact.title}">
+                    <i class="fa fa-pencil"></i>Edit
+                </a>
+                <a href="#" class="btn-xp delete-btn" th:attr="data-id=${contact.id}">
+                    <i class="fa fa-trash"></i>Delete
+                </a>
             </td>
         </tr>
         </tbody>
@@ -206,6 +221,7 @@
     </div>
 </div>
 
+<!-- Modal for Adding Contact -->
 <div id="myModal" class="modal">
     <div class="modal-content">
         <span class="close" id="closeModalBtn">&times;</span>
@@ -228,40 +244,46 @@
                 <input type="text" id="title" name="title">
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn-xp btn-submit" id="submitBtn">Add Contact</button>
+                <button type="submit" class="btn-xp btn-submit" id="submitBtn">
+                    <i class="fa fa-plus-circle"></i>Add Contact
+                </button>
             </div>
         </form>
     </div>
 </div>
 
+<!-- Modal for Editing Contact -->
 <div id="editModal" class="modal">
     <div class="modal-content">
         <span class="close" id="closeEditModalBtn">&times;</span>
         <div class="modal-header">Edit Contact</div>
-        <form>
+        <form id="editContactForm" method="post">
             <div class="form-group">
                 <label for="editName">Name:</label>
-                <input type="text" id="editName" name="editName">
+                <input type="text" id="editName" name="name">
             </div>
             <div class="form-group">
                 <label for="editEmail">Email:</label>
-                <input type="email" id="editEmail" name="editEmail">
+                <input type="email" id="editEmail" name="email">
             </div>
             <div class="form-group">
                 <label for="editPhone">Phone:</label>
-                <input type="text" id="editPhone" name="editPhone">
+                <input type="text" id="editPhone" name="phone">
             </div>
             <div class="form-group">
                 <label for="editTitle">Title:</label>
-                <input type="text" id="editTitle" name="editTitle">
+                <input type="text" id="editTitle" name="title">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn-xp btn-submit" id="editSubmitBtn">Save Changes</button>
+                <button type="submit" class="btn-xp btn-submit">
+                    <i class="fa fa-save"></i>Save Changes
+                </button>
             </div>
         </form>
     </div>
 </div>
 
+<!-- Modal for Confirming Deletion -->
 <div id="deleteModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">Confirm Deletion</div>
@@ -269,8 +291,12 @@
         <form th:action="@{/contacts/delete}" method="post">
             <input type="hidden" id="deletedContactId" name="id">
             <div class="modal-footer">
-                <button type="button" class="btn-xp btn-cancel" id="cancelDeleteBtn">Cancel</button>
-                <button type="submit" class="btn-xp btn-confirm" id="confirmDeleteBtn">Delete</button>
+                <button type="button" class="btn-xp btn-cancel" id="cancelDeleteBtn">
+                    <i class="fa fa-ban"></i>Cancel
+                </button>
+                <button type="submit" class="btn-xp btn-confirm" id="confirmDeleteBtn">
+                    <i class="fa fa-trash-o"></i>Delete
+                </button>
             </div>
         </form>
     </div>
@@ -296,32 +322,40 @@
         }
     }
 
+    // Script to open and close the edit contact modal and load contact data
     var editModal = document.getElementById("editModal");
     var editBtns = document.getElementsByClassName("edit-btn");
     var closeEditModalBtn = document.getElementById("closeEditModalBtn");
 
     Array.from(editBtns).forEach(function(btn) {
         btn.onclick = function() {
-            // Populate the edit form with contact data (static example)
-            document.getElementById("editName").value = "John Doe";
-            document.getElementById("editEmail").value = "johndoe@example.com";
-            document.getElementById("editPhone").value = "2026550143";
-            document.getElementById("editTitle").value = "Lawyer";
+            var contactId = this.getAttribute("data-id");
+            var contactName = this.getAttribute("data-name");
+            var contactEmail = this.getAttribute("data-email");
+            var contactPhone = this.getAttribute("data-phone");
+            var contactTitle = this.getAttribute("data-title");
 
+            document.getElementById("editName").value = contactName;
+            document.getElementById("editEmail").value = contactEmail;
+            document.getElementById("editPhone").value = contactPhone;
+            document.getElementById("editTitle").value = contactTitle;
+
+            document.getElementById("editContactForm").setAttribute("action", "/contacts/update/" + contactId);
             editModal.style.display = "block";
-        }
+        };
     });
 
     closeEditModalBtn.onclick = function() {
         editModal.style.display = "none";
-    }
+    };
 
     window.onclick = function(event) {
         if (event.target == editModal) {
             editModal.style.display = "none";
         }
-    }
+    };
 
+    // Script to open and close the delete contact modal
     var deleteModal = document.getElementById("deleteModal");
     var deleteBtns = document.getElementsByClassName("delete-btn");
     var cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
@@ -332,24 +366,24 @@
             var contactId = this.getAttribute("data-id");
             document.getElementById("deletedContactId").value = contactId;
             deleteModal.style.display = "block";
-        }
+        };
     });
 
     cancelDeleteBtn.onclick = function() {
         deleteModal.style.display = "none";
-    }
+    };
 
     confirmDeleteBtn.onclick = function() {
-        // Here you can add the logic to delete the contact
+        // Logic to delete the contact
         alert("Contact deleted successfully!");
         deleteModal.style.display = "none";
-    }
+    };
 
     window.onclick = function(event) {
         if (event.target == deleteModal) {
             deleteModal.style.display = "none";
         }
-    }
+    };
 </script>
 
 </body>

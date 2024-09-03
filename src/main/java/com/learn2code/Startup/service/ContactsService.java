@@ -6,6 +6,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.management.RuntimeErrorException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -40,4 +41,19 @@ public class ContactsService {
             throw new IllegalArgumentException("Contact not found with ID: " + id);
         }
     }
+
+    @Transactional
+    public Contacts updateContact(Long id, Contacts updateContact) {
+        return contactsRepository.findById(id)
+                .map(contacts -> {
+                    contacts.setName(updateContact.getName());
+                    contacts.setEmail(updateContact.getEmail());
+                    contacts.setPhone(updateContact.getPhone());
+                    contacts.setTitle(updateContact.getTitle());
+                    return contactsRepository.save(contacts);
+                })
+                .orElseThrow(() -> new RuntimeErrorException(new Error("Contact with id " + id + " was not found.")));
+    }
+
+
 }
