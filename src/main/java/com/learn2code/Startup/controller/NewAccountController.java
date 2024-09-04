@@ -29,11 +29,9 @@ public class NewAccountController {
 
         if (result.equals("New Account created successfully.")) {
             model.addAttribute("successMessage", result);
-            System.out.println("New account created");
             return "login";
         } else {
             model.addAttribute("errorMessage", result);
-            System.out.println("Error. New account was not created");
             return "create";
         }
     }
