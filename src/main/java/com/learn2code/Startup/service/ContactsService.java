@@ -30,6 +30,10 @@ public class ContactsService {
         return contactsRepository.findByNameContainingIgnoreCase(name);
     }
 
+    public List<Contacts> findByTitle(String title) {
+        return contactsRepository.findByTitle(title);
+    }
+
     @Transactional
     public Contacts createContact(String name, String email, String phone, String title) {
 

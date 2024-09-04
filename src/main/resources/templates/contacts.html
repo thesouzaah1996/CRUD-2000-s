@@ -339,7 +339,6 @@
 </div>
 
 <script>
-    // Função de busca dinâmica na tabela
     document.getElementById('searchInput').addEventListener('keyup', function() {
         let searchValue = this.value.toLowerCase();
         let rows = document.querySelectorAll('#contactsTable tr');
@@ -347,19 +346,18 @@
         rows.forEach(function(row) {
             let name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
             let id = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+            let title = row.querySelector('td:nth-child(5)').textContent.toLowerCase();
 
-            if (name.includes(searchValue) || id.includes(searchValue)) {
+            if (name.includes(searchValue) || id.includes(searchValue) || title.includes(searchValue)) {
                 row.style.display = '';
             } else {
                 row.style.display = 'none';
             }
         });
 
-        // Reanexar os eventos dos botões após o filtro
         reattachButtonEvents();
     });
 
-    // Script para abrir e fechar o modal de criação
     var modal = document.getElementById("myModal");
     var btn = document.getElementById("openModalBtn");
     var span = document.getElementById("closeModalBtn");
@@ -378,7 +376,6 @@
         }
     }
 
-    // Função para reanexar eventos aos botões de editar e excluir
     function reattachButtonEvents() {
         var editModal = document.getElementById("editModal");
         var editBtns = document.getElementsByClassName("edit-btn");
@@ -429,7 +426,6 @@
         };
     }
 
-    // Inicializar os eventos ao carregar a página
     reattachButtonEvents();
 
 </script>

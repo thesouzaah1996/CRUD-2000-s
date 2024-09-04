@@ -26,12 +26,15 @@ public class ContactsController {
     @GetMapping("/search")
     public String searchContact(@RequestParam(value = "id", required = false) Long id,
                                 @RequestParam(value = "name", required = false) String name,
+                                @RequestParam(value = "title", required = false) String title,
                                 Model model) {
         if (id != null) {
             Optional<Contacts> contact = contactsService.findById(id);
             contact.ifPresent(c -> model.addAttribute("contacts", List.of(c)));
         } else if (name != null && !name.isEmpty()){
             model.addAttribute("contacts", contactsService.findByName(name));
+        } else if (title != null && !title.isEmpty()) {
+            model.addAttribute("contacts", contactsService.findByTitle(title));
         } else {
             model.addAttribute("error", "Please provide either an ID or a name to search");
         }

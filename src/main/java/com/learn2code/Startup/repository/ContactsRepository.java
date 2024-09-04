@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface ContactsRepository extends JpaRepository<Contacts, Long> {
     List<Contacts> findByNameContainingIgnoreCase(String name);
+
+    List<Contacts> findByTitle(String title);
 }
