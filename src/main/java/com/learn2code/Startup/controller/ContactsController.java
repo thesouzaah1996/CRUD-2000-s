@@ -1,6 +1,6 @@
 package com.learn2code.Startup.controller;
 
-import com.learn2code.Startup.model.Contacts;
+import com.learn2code.Startup.entity.Contacts;
 import com.learn2code.Startup.service.ContactsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

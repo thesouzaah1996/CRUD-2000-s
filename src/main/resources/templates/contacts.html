@@ -20,6 +20,7 @@
             border: 2px solid #696969;
             border-radius: 5px;
             box-shadow: 3px 3px 10px #555;
+            position: relative;
         }
 
         h1 {
@@ -28,6 +29,29 @@
             color: #000080;
             margin-bottom: 20px;
             text-shadow: 1px 1px 2px #000;
+        }
+
+        .logout-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 7px 15px;
+            font-family: Tahoma, sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            color: #000;
+            text-decoration: none;
+            background: linear-gradient(to bottom, #F0F0F0, #C0C0C0);
+            border: 2px solid #A5A5A5;
+            border-radius: 5px;
+            box-shadow: 1px 1px 1px #FFF inset, -1px -1px 1px #B5B5B5 inset;
+        }
+
+        .logout-btn:hover {
+            background: linear-gradient(to bottom, #E0E0E0, #B0B0B0);
+            border: 2px solid #A5A5A5;
+            box-shadow: 1px 1px 1px #FFF inset, -1px -1px 1px #B5B5B5 inset, 2px 2px 5px #333;
+            cursor: pointer;
         }
 
         .actions-container {
@@ -46,12 +70,12 @@
             display: flex;
             justify-content: flex-end;
             align-items: center;
-            width: 30%; /* Ajustado para ocupar aproximadamente 30% do espaço disponível */
+            width: 30%;
         }
 
         .btn-xp {
             display: inline-block;
-            padding: 8px 20px; /* Aumentado para evitar quebra de linha */
+            padding: 8px 20px;
             font-family: Tahoma, sans-serif;
             font-size: 14px;
             font-weight: bold;
@@ -63,7 +87,7 @@
             border-radius: 5px;
             box-shadow: 1px 1px 1px #FFF inset, -1px -1px 1px #B5B5B5 inset;
             margin-bottom: 10px;
-            white-space: nowrap; /* Previne quebra de linha */
+            white-space: nowrap;
         }
 
         .btn-xp:hover {
@@ -207,6 +231,8 @@
 <body>
 
 <div class="container">
+    <a href="/login" class="logout-btn"><i class="fa fa-sign-out"></i> Logout</a>
+
     <h1>Read Contacts</h1>
     <div class="actions-container">
         <div class="actions-left">
@@ -408,7 +434,6 @@
     };
 
     confirmDeleteBtn.onclick = function() {
-        // Logic to delete the contact
         alert("Contact deleted successfully!");
         deleteModal.style.display = "none";
     };

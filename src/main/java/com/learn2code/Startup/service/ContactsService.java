@@ -1,6 +1,6 @@
 package com.learn2code.Startup.service;
 
-import com.learn2code.Startup.model.Contacts;
+import com.learn2code.Startup.entity.Contacts;
 import com.learn2code.Startup.repository.ContactsRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

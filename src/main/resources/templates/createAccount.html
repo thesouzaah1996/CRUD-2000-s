@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    body {
+        background-color: #A9A9A9;
+        margin: 0;
+        padding: 0;
+        font-family: Tahoma, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .container {
+        width: 400px;
+        height: 600px; /* Ajusta a altura para acomodar todos os campos */
+        background-color: #D3D3D3;
+        padding: 20px;
+        border: 2px solid #696969;
+        border-radius: 5px;
+        box-shadow: 3px 3px 10px #555;
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 24px;
+        color: #000080;
+        margin-bottom: 30px; /* Aumenta o espaço abaixo do título */
+        text-shadow: 1px 1px 2px #000;
+    }
+
+    .form-group {
+        margin-bottom: 20px; /* Aumenta o espaço entre os campos */
+        text-align: left;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px; /* Aumenta o espaço entre a label e o input */
+        font-weight: bold;
+        color: #000;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 12px; /* Aumenta o padding dos inputs */
+        font-size: 14px;
+        border: 2px solid #A5A5A5;
+        border-radius: 5px;
+        box-shadow: inset 1px 1px 1px #FFF, inset -1px -1px 1px #B5B5B5;
+        background: linear-gradient(to bottom, #F0F0F0, #C0C0C0);
+        box-sizing: border-box;
+    }
+
+    .btn-create {
+        display: inline-block;
+        width: 100%;
+        padding: 14px; /* Aumenta o tamanho do botão */
+        font-family: Tahoma, sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        color: #000;
+        text-align: center;
+        text-decoration: none;
+        background: linear-gradient(to bottom, #F0F0F0, #C0C0C0);
+        border: 2px solid #A5A5A5;
+        border-radius: 5px;
+        box-shadow: 1px 1px 1px #FFF inset, -1px -1px 1px #B5B5B5 inset;
+        margin-top: 15px;
+        cursor: pointer;
+    }
+
+    .btn-create:hover {
+        background: linear-gradient(to bottom, #E0E0E0, #B0B0B0);
+        border: 2px solid #A5A5A5;
+        box-shadow: 1px 1px 1px #FFF inset, -1px -1px 1px #B5B5B5 inset, 2px 2px 5px #333;
+    }
+
+    .btn-create:active {
+        background: linear-gradient(to top, #E0E0E0, #A0A0A0);
+        border: 2px solid #888;
+        box-shadow: inset 1px 1px 1px #B5B5B5, inset -1px -1px 1px #FFF, 2px 2px 5px #333;
+    }
+
+    .create-account-footer {
+        margin-top: 30px; /* Aumenta o espaço acima do rodapé */
+        font-size: 12px;
+        color: #000080;
+    }
+
+    .login-link {
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    .login-link a {
+        color: #000080;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Create Account</h1>
+  <form>
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" placeholder="Enter your username">
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="Enter your email">
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password">
+    </div>
+    <div class="form-group">
+      <label for="confirm-password">Confirm Password</label>
+      <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password">
+    </div>
+    <button type="submit" class="btn-create">
+      <i class="fa fa-user-plus"></i> Create Account
+    </button>
+  </form>
+  <div class="login-link">
+    Already have an account? <a href="/login">Login here</a>
+  </div>
+  <div class="create-account-footer">
+    &copy; 2024 Your Company. All rights reserved.
+  </div>
+</div>
+
+</body>
+</html>
