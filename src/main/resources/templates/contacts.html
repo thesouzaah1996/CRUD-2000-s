@@ -47,13 +47,6 @@
             box-shadow: 1px 1px 1px #FFF inset, -1px -1px 1px #B5B5B5 inset;
         }
 
-        .logout-btn:hover {
-            background: linear-gradient(to bottom, #E0E0E0, #B0B0B0);
-            border: 2px solid #A5A5A5;
-            box-shadow: 1px 1px 1px #FFF inset, -1px -1px 1px #B5B5B5 inset, 2px 2px 5px #333;
-            cursor: pointer;
-        }
-
         .actions-container {
             display: flex;
             justify-content: space-between;
@@ -88,23 +81,6 @@
             box-shadow: 1px 1px 1px #FFF inset, -1px -1px 1px #B5B5B5 inset;
             margin-bottom: 10px;
             white-space: nowrap;
-        }
-
-        .btn-xp:hover {
-            background: linear-gradient(to bottom, #E0E0E0, #B0B0B0);
-            border: 2px solid #A5A5A5;
-            box-shadow: 1px 1px 1px #FFF inset, -1px -1px 1px #B5B5B5 inset, 2px 2px 5px #333;
-            cursor: pointer;
-        }
-
-        .btn-xp:active {
-            background: linear-gradient(to top, #E0E0E0, #A0A0A0);
-            border: 2px solid #888;
-            box-shadow: inset 1px 1px 1px #B5B5B5, inset -1px -1px 1px #FFF, 2px 2px 5px #333;
-        }
-
-        .btn-xp i {
-            margin-right: 5px;
         }
 
         .search-input {
@@ -243,7 +219,7 @@
                 <i class="fa fa-file-excel-o"></i>Export to Excel
             </a>
         </div>
-        <div class="actions-right">
+        <div class="actions-right" th:if="${contacts}">
             <input type="text" id="searchInput" class="search-input" placeholder="Search...">
         </div>
     </div>
@@ -259,7 +235,7 @@
             <th>Actions</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="contactsTable">
         <tr th:each="contact : ${contacts}">
             <td th:text="${contact.id}"></td>
             <td th:text="${contact.name}"></td>
@@ -363,7 +339,27 @@
 </div>
 
 <script>
-    // Script to open and close the create contact modal
+    // Função de busca dinâmica na tabela
+    document.getElementById('searchInput').addEventListener('keyup', function() {
+        let searchValue = this.value.toLowerCase();
+        let rows = document.querySelectorAll('#contactsTable tr');
+
+        rows.forEach(function(row) {
+            let name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+            let id = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+
+            if (name.includes(searchValue) || id.includes(searchValue)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        // Reanexar os eventos dos botões após o filtro
+        reattachButtonEvents();
+    });
+
+    // Script para abrir e fechar o modal de criação
     var modal = document.getElementById("myModal");
     var btn = document.getElementById("openModalBtn");
     var span = document.getElementById("closeModalBtn");
@@ -382,67 +378,60 @@
         }
     }
 
-    // Script to open and close the edit contact modal and load contact data
-    var editModal = document.getElementById("editModal");
-    var editBtns = document.getElementsByClassName("edit-btn");
-    var closeEditModalBtn = document.getElementById("closeEditModalBtn");
+    // Função para reanexar eventos aos botões de editar e excluir
+    function reattachButtonEvents() {
+        var editModal = document.getElementById("editModal");
+        var editBtns = document.getElementsByClassName("edit-btn");
+        var closeEditModalBtn = document.getElementById("closeEditModalBtn");
 
-    Array.from(editBtns).forEach(function(btn) {
-        btn.onclick = function() {
-            var contactId = this.getAttribute("data-id");
-            var contactName = this.getAttribute("data-name");
-            var contactEmail = this.getAttribute("data-email");
-            var contactPhone = this.getAttribute("data-phone");
-            var contactTitle = this.getAttribute("data-title");
+        Array.from(editBtns).forEach(function(btn) {
+            btn.onclick = function() {
+                var contactId = this.getAttribute("data-id");
+                var contactName = this.getAttribute("data-name");
+                var contactEmail = this.getAttribute("data-email");
+                var contactPhone = this.getAttribute("data-phone");
+                var contactTitle = this.getAttribute("data-title");
 
-            document.getElementById("editName").value = contactName;
-            document.getElementById("editEmail").value = contactEmail;
-            document.getElementById("editPhone").value = contactPhone;
-            document.getElementById("editTitle").value = contactTitle;
+                document.getElementById("editName").value = contactName;
+                document.getElementById("editEmail").value = contactEmail;
+                document.getElementById("editPhone").value = contactPhone;
+                document.getElementById("editTitle").value = contactTitle;
 
-            document.getElementById("editContactForm").setAttribute("action", "/contacts/update/" + contactId);
-            editModal.style.display = "block";
-        };
-    });
+                document.getElementById("editContactForm").setAttribute("action", "/contacts/update/" + contactId);
+                editModal.style.display = "block";
+            };
+        });
 
-    closeEditModalBtn.onclick = function() {
-        editModal.style.display = "none";
-    };
-
-    window.onclick = function(event) {
-        if (event.target == editModal) {
+        closeEditModalBtn.onclick = function() {
             editModal.style.display = "none";
-        }
-    };
-
-    // Script to open and close the delete contact modal
-    var deleteModal = document.getElementById("deleteModal");
-    var deleteBtns = document.getElementsByClassName("delete-btn");
-    var cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
-    var confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
-
-    Array.from(deleteBtns).forEach(function(btn) {
-        btn.onclick = function() {
-            var contactId = this.getAttribute("data-id");
-            document.getElementById("deletedContactId").value = contactId;
-            deleteModal.style.display = "block";
         };
-    });
 
-    cancelDeleteBtn.onclick = function() {
-        deleteModal.style.display = "none";
-    };
+        var deleteModal = document.getElementById("deleteModal");
+        var deleteBtns = document.getElementsByClassName("delete-btn");
+        var cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
 
-    confirmDeleteBtn.onclick = function() {
-        alert("Contact deleted successfully!");
-        deleteModal.style.display = "none";
-    };
+        Array.from(deleteBtns).forEach(function(btn) {
+            btn.onclick = function() {
+                var contactId = this.getAttribute("data-id");
+                document.getElementById("deletedContactId").value = contactId;
+                deleteModal.style.display = "block";
+            };
+        });
 
-    window.onclick = function(event) {
-        if (event.target == deleteModal) {
+        cancelDeleteBtn.onclick = function() {
             deleteModal.style.display = "none";
-        }
-    };
+        };
+
+        window.onclick = function(event) {
+            if (event.target == deleteModal) {
+                deleteModal.style.display = "none";
+            }
+        };
+    }
+
+    // Inicializar os eventos ao carregar a página
+    reattachButtonEvents();
+
 </script>
 
 </body>

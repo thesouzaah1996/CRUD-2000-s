@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.management.RuntimeErrorException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ContactsService {
@@ -19,6 +20,14 @@ public class ContactsService {
 
     public List<Contacts> findAllContacts() {
         return contactsRepository.findAll(Sort.by(Sort.Direction.DESC, "created"));
+    }
+
+    public Optional<Contacts> findById(Long id) {
+        return contactsRepository.findById(id);
+    }
+
+    public List<Contacts> findByName(String name) {
+        return contactsRepository.findByNameContainingIgnoreCase(name);
     }
 
     @Transactional

@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ContactsController {
@@ -20,6 +21,22 @@ public class ContactsController {
         List<Contacts> contacts = contactsService.findAllContacts();
         model.addAttribute("contacts", contacts);
         return "contacts";
+    }
+
+    @GetMapping("/search")
+    public String searchContact(@RequestParam(value = "id", required = false) Long id,
+                                @RequestParam(value = "name", required = false) String name,
+                                Model model) {
+        if (id != null) {
+            Optional<Contacts> contact = contactsService.findById(id);
+            contact.ifPresent(c -> model.addAttribute("contacts", List.of(c)));
+        } else if (name != null && !name.isEmpty()){
+            model.addAttribute("contacts", contactsService.findByName(name));
+        } else {
+            model.addAttribute("error", "Please provide either an ID or a name to search");
+        }
+
+        return "contacts/search";
     }
 
     @PostMapping("/contacts")
