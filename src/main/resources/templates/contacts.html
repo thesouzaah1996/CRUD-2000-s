@@ -30,9 +30,28 @@
             text-shadow: 1px 1px 2px #000;
         }
 
+        .actions-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .actions-left {
+            display: flex;
+            gap: 10px;
+        }
+
+        .actions-right {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 30%; /* Ajustado para ocupar aproximadamente 30% do espaço disponível */
+        }
+
         .btn-xp {
             display: inline-block;
-            padding: 8px 15px;
+            padding: 8px 20px; /* Aumentado para evitar quebra de linha */
             font-family: Tahoma, sans-serif;
             font-size: 14px;
             font-weight: bold;
@@ -43,8 +62,8 @@
             border: 2px solid #A5A5A5;
             border-radius: 5px;
             box-shadow: 1px 1px 1px #FFF inset, -1px -1px 1px #B5B5B5 inset;
-            margin-right: 10px;
             margin-bottom: 10px;
+            white-space: nowrap; /* Previne quebra de linha */
         }
 
         .btn-xp:hover {
@@ -62,6 +81,17 @@
 
         .btn-xp i {
             margin-right: 5px;
+        }
+
+        .search-input {
+            padding: 7px;
+            width: 62%;
+            font-family: Tahoma, sans-serif;
+            font-size: 14px;
+            border: 2px solid #A5A5A5;
+            border-radius: 5px;
+            box-shadow: inset 1px 1px 1px #FFF, inset -1px -1px 1px #B5B5B5;
+            background: linear-gradient(to bottom, #F0F0F0, #C0C0C0);
         }
 
         table {
@@ -178,12 +208,19 @@
 
 <div class="container">
     <h1>Read Contacts</h1>
-    <a href="#" class="btn-xp" id="openModalBtn">
-        <i class="fa fa-user-plus"></i>Create Contact
-    </a>
-    <a href="#" class="btn-xp">
-        <i class="fa fa-file-excel-o"></i>Export to Excel
-    </a>
+    <div class="actions-container">
+        <div class="actions-left">
+            <a href="#" class="btn-xp" id="openModalBtn">
+                <i class="fa fa-user-plus"></i>Create Contact
+            </a>
+            <a href="#" class="btn-xp">
+                <i class="fa fa-file-excel-o"></i>Export to Excel
+            </a>
+        </div>
+        <div class="actions-right">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search...">
+        </div>
+    </div>
     <table>
         <thead>
         <tr>
@@ -221,7 +258,6 @@
     </div>
 </div>
 
-<!-- Modal for Adding Contact -->
 <div id="myModal" class="modal">
     <div class="modal-content">
         <span class="close" id="closeModalBtn">&times;</span>
@@ -252,7 +288,6 @@
     </div>
 </div>
 
-<!-- Modal for Editing Contact -->
 <div id="editModal" class="modal">
     <div class="modal-content">
         <span class="close" id="closeEditModalBtn">&times;</span>
@@ -283,7 +318,6 @@
     </div>
 </div>
 
-<!-- Modal for Confirming Deletion -->
 <div id="deleteModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">Confirm Deletion</div>

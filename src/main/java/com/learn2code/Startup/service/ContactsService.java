@@ -4,6 +4,7 @@ import com.learn2code.Startup.model.Contacts;
 import com.learn2code.Startup.repository.ContactsRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.management.RuntimeErrorException;
@@ -17,7 +18,7 @@ public class ContactsService {
     private ContactsRepository contactsRepository;
 
     public List<Contacts> findAllContacts() {
-        return contactsRepository.findAll();
+        return contactsRepository.findAll(Sort.by(Sort.Direction.DESC, "created"));
     }
 
     @Transactional
