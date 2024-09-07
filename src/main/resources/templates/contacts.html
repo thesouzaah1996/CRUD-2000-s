@@ -45,6 +45,11 @@
             border: 2px solid #A5A5A5;
             border-radius: 5px;
             box-shadow: 1px 1px 1px #FFF inset, -1px -1px 1px #B5B5B5 inset;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #C0C0C0;
         }
 
         .actions-container {
@@ -81,6 +86,16 @@
             box-shadow: 1px 1px 1px #FFF inset, -1px -1px 1px #B5B5B5 inset;
             margin-bottom: 10px;
             white-space: nowrap;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-xp:hover {
+            background-color: #C0C0C0;
+        }
+
+        /* Remove linha azul no hover */
+        .btn-xp:focus {
+            outline: none;
         }
 
         .search-input {
@@ -136,7 +151,7 @@
             color: #000080;
         }
 
-        /* Style for modal */
+        /* Estilo dos modais para parecer com popups do Windows XP */
         .modal {
             display: none;
             position: fixed;
@@ -147,15 +162,17 @@
             height: 100%;
             overflow: auto;
             background-color: rgba(0, 0, 0, 0.5);
+            font-family: Tahoma, sans-serif;
         }
 
         .modal-content {
-            background-color: #D3D3D3;
+            background-color: #E8E8E8;
             margin: 15% auto;
             padding: 20px;
-            border: 2px solid #696969;
+            border: 2px solid #000080;
             width: 40%;
-            box-shadow: 5px 5px 15px #555;
+            box-shadow: 5px 5px 15px #000;
+            border-radius: 4px;
         }
 
         .modal-header {
@@ -163,25 +180,31 @@
             font-weight: bold;
             color: #000080;
             margin-bottom: 15px;
+            background-color: #C0C0C0;
+            padding: 10px;
+            border-bottom: 2px solid #000080;
         }
 
         .modal-footer {
             margin-top: 15px;
             text-align: right;
+            background-color: #C0C0C0;
+            padding: 10px;
+            border-top: 2px solid #000080;
         }
 
         .close {
-            color: #aaa;
+            color: #000;
             float: right;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: bold;
+            cursor: pointer;
         }
 
         .close:hover,
         .close:focus {
-            color: black;
+            color: #000080;
             text-decoration: none;
-            cursor: pointer;
         }
 
         .form-group {
@@ -213,10 +236,10 @@
     <div class="actions-container">
         <div class="actions-left">
             <a href="#" class="btn-xp" id="openModalBtn">
-                <i class="fa fa-user-plus"></i>Create Contact
+                <i class="fa fa-user-plus"></i> Create Contact
             </a>
-            <a href="#" class="btn-xp">
-                <i class="fa fa-file-excel-o"></i>Export to Excel
+            <a th:href="@{/export/excel}" class="btn-xp">
+                <i class="fa fa-file-excel-o"></i> Export to Excel
             </a>
         </div>
         <div class="actions-right" th:if="${contacts}">
@@ -246,10 +269,10 @@
             <td class="crud-buttons">
                 <a href="#" class="btn-xp edit-btn"
                    th:attr="data-id=${contact.id}, data-name=${contact.name}, data-email=${contact.email}, data-phone=${contact.phone}, data-title=${contact.title}">
-                    <i class="fa fa-pencil"></i>Edit
+                    <i class="fa fa-pencil"></i> Edit
                 </a>
                 <a href="#" class="btn-xp delete-btn" th:attr="data-id=${contact.id}">
-                    <i class="fa fa-trash"></i>Delete
+                    <i class="fa fa-trash"></i> Delete
                 </a>
             </td>
         </tr>
@@ -260,6 +283,7 @@
     </div>
 </div>
 
+<!-- Modals -->
 <div id="myModal" class="modal">
     <div class="modal-content">
         <span class="close" id="closeModalBtn">&times;</span>
